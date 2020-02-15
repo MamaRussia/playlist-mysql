@@ -11,9 +11,12 @@ connection.connect(function(err) {
   if (err) throw err;
 
   console.log("connected as id: " + connection.threadId);
+  // queryAllSongs();
+  // queryRapSongs();
+  // queryRockSongs();
+  createSong();
   queryAllSongs();
-  queryRapSongs();
-  queryRockSongs();
+
 });
 
 function queryAllSongs() {
@@ -31,6 +34,7 @@ function queryAllSongs() {
     }
     console.log("---------------------------------------");
   });
+  
 }
 
 function queryRapSongs() {
@@ -74,3 +78,35 @@ function queryRockSongs() {
     }
   );
 }
+
+function createSong() {
+  console.log("Inserting a new song... \n");
+  let query = connection.query("INSERT INTO songs SET ?", {
+    title: "Sexual Healing",
+    artist: "Marvin Gaye",
+    genre: "R&B",
+    
+  }, function (err, res) {
+      console.log(res.affectedRows + " song inserted!\n");
+      createSong();
+      connection.end()
+  })
+  console.log(query.sql);
+
+}
+
+// function updateSong() {
+//   console.log("Updating a song... \n");
+//   let query = connection.query("Update songs SET title WHERE title =?, ['Sexual Healing']", {
+//     title: "Let's Get It On",
+//     artist: "Marvin Gaye",
+//     genre: "R&B"
+//   }, function (err, res) {
+//       console.log(res.affectedRows + " song inserted!\n");
+//       createSong();
+//   })
+//   console.log(query.sql);
+
+// }
+
+
