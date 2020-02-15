@@ -16,7 +16,6 @@ connection.connect(function(err) {
   // queryRockSongs();
   createSong();
   queryAllSongs();
-
 });
 
 function queryAllSongs() {
@@ -33,8 +32,8 @@ function queryAllSongs() {
       );
     }
     console.log("---------------------------------------");
+    connection.end();
   });
-  
 }
 
 function queryRapSongs() {
@@ -81,32 +80,48 @@ function queryRockSongs() {
 
 function createSong() {
   console.log("Inserting a new song... \n");
-  let query = connection.query("INSERT INTO songs SET ?", {
-    title: "Sexual Healing",
-    artist: "Marvin Gaye",
-    genre: "R&B",
-    
-  }, function (err, res) {
+  let query = connection.query(
+    "INSERT INTO songs SET ?",
+    {
+      title: "Sexual Healing",
+      artist: "Marvin Gaye",
+      genre: "R&B"
+    },
+    function(err, res) {
       console.log(res.affectedRows + " song inserted!\n");
-      createSong();
-      connection.end()
-  })
+      updateSong();
+    }
+  );
   console.log(query.sql);
-
 }
 
-// function updateSong() {
-//   console.log("Updating a song... \n");
-//   let query = connection.query("Update songs SET title WHERE title =?, ['Sexual Healing']", {
-//     title: "Let's Get It On",
-//     artist: "Marvin Gaye",
-//     genre: "R&B"
-//   }, function (err, res) {
-//       console.log(res.affectedRows + " song inserted!\n");
-//       createSong();
-//   })
-//   console.log(query.sql);
+function updateSong() {
+  console.log("Updating all songs by The Beatles... \n");
+  let query = connection.query(
+    "Update songs SET artist WHERE artist =?, ['The Beatles']",
+    {
+      artist: "The Beatles",
+      genre: "Rock"
+    },
+    function(err, res) {
+      console.log(res.affectedRows + " songs updated!\n");
+      deleteSong();
+      queryAllSongs();
+    }
+  );
+  console.log(query.sql);
+}
 
+// function deleteSong() {
+//   console.log("Deleting all rap songs ...\n");
+//   connection.query(
+//     "DELETE FROM songs WHERE ?",
+//     {
+//       genre: "Rap"
+//     },
+//     function(err, res) {
+//       console.log(res.affectedRows + " songs delted!\n");
+//       queryAllSongs();
+//     }
+//   );
 // }
-
-
