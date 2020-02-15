@@ -15,7 +15,7 @@ connection.connect(function(err) {
   // queryRapSongs();
   // queryRockSongs();
   createSong();
-  queryAllSongs();
+  // queryAllSongs();
 });
 
 function queryAllSongs() {
@@ -98,30 +98,34 @@ function createSong() {
 function updateSong() {
   console.log("Updating all songs by The Beatles... \n");
   let query = connection.query(
-    "Update songs SET artist WHERE artist =?, ['The Beatles']",
-    {
-      artist: "The Beatles",
-      genre: "Rock"
-    },
+    "UPDATE songs SET ? WHERE ?",
+    [
+      {
+        artist: "The Beatles"
+      },
+      {
+        genre: "Rock"
+      }
+    ],
     function(err, res) {
       console.log(res.affectedRows + " songs updated!\n");
       deleteSong();
-      queryAllSongs();
+      // queryAllSongs();
     }
   );
   console.log(query.sql);
 }
 
-// function deleteSong() {
-//   console.log("Deleting all rap songs ...\n");
-//   connection.query(
-//     "DELETE FROM songs WHERE ?",
-//     {
-//       genre: "Rap"
-//     },
-//     function(err, res) {
-//       console.log(res.affectedRows + " songs delted!\n");
-//       queryAllSongs();
-//     }
-//   );
-// }
+function deleteSong() {
+  console.log("Deleting all rap songs ...\n");
+  connection.query(
+    "DELETE FROM songs WHERE ?",
+    {
+      genre: "Rap"
+    },
+    function(err, res) {
+      console.log(res.affectedRows + " songs delted!\n");
+      queryAllSongs();
+    }
+  );
+}
