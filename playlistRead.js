@@ -96,15 +96,15 @@ function createSong() {
 }
 
 function updateSong() {
-  console.log("Updating all songs by The Beatles... \n");
+  console.log("Updating 1 song by Aerosmith... \n");
   let query = connection.query(
     "UPDATE songs SET ? WHERE ?",
     [
       {
-        artist: "The Beatles"
+        artist: "Aerosmith"
       },
       {
-        genre: "Rock"
+        genre: "Acoustic"
       }
     ],
     function(err, res) {
@@ -117,14 +117,14 @@ function updateSong() {
 }
 
 function deleteSong() {
-  console.log("Deleting all rap songs ...\n");
+  console.log("Deleting all rap songs. Instruments Only! ...\n");
   connection.query(
     "DELETE FROM songs WHERE ?",
     {
       genre: "Rap"
     },
     function(err, res) {
-      console.log(res.affectedRows + " songs delted!\n");
+      console.log(res.affectedRows + " songs deleted!\n");
       queryAllSongs();
     }
   );
